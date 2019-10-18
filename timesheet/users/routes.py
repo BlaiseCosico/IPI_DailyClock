@@ -5,7 +5,7 @@ from flask_login import login_user, current_user, logout_user, login_required
 from timesheet import db
 from datetime import datetime, date
 from timesheet.models import User, Daily
-from timesheet.users.forms import LoginForm
+from timesheet.users.forms import LoginForm, RegistrationForm
 
 users = Blueprint('users', __name__)
 todays_datetime = datetime(datetime.today().year, datetime.today().month, datetime.today().day)
@@ -63,4 +63,12 @@ def time_out():
     return render_template('posts.html', title='Timed Out',
                            daily=daily)
 
+@users.route('/register', methods=['GET','POST'])
+def register():
+    form = RegistrationForm()
+    return render_template('register.html', form=form)
+
+@users.route('/profile')
+def profile():
+    pass
 
