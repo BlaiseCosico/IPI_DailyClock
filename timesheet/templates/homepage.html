@@ -16,7 +16,7 @@
                 <td>{{ day.employee.position }}</td>
                 <td>{{ day.date_today.strftime("%Y/%m/%d") }}</td>
                 <td>{{ day.time_in }}</td>
-                <td>{{ day.time_out }}</td>
+                <td><button type="button" class="btn btn-primary">Timeout</button></td>
             </tr>
         {% endfor %}
         </table>
