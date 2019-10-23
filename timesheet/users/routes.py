@@ -2,7 +2,7 @@ import sys
 from flask import (render_template, url_for, flash,
                    redirect, request, abort, Blueprint)
 from flask_login import login_user, current_user, logout_user, login_required
-from timesheet import db
+from timesheet import db, bcrypt
 from datetime import datetime, date
 from timesheet.models import User, Daily
 from timesheet.users.forms import LoginForm, RegistrationForm
@@ -30,7 +30,7 @@ def login():
     form = LoginForm()
     if form.validate_on_submit():
         user = User.query.filter_by(username=form.username.data).first()
-        if user and user.password == form.password.data:
+        if user and bcrypt.check_password_hash(user.password, form.password.data):
             login_user(user)
             time_in()
 
@@ -48,25 +48,33 @@ def logout():
 @users.route('/time_out')
 @login_required
 def time_out():
-    #get user with current_user.username and date today
+
     user = Daily.query.filter_by(user_id=current_user.username).filter_by(date_today=todays_datetime).first()
     user.time_out = datetime.now().strftime("%H:%M")
     db.session.commit()
     flash('You have timed out!', 'success')
     daily = Daily.query.order_by(Daily.time_in.desc())
-    #user is loggged in
-    #press timeout button
-    #get current_user, relationship with daily
-    #update timeout
-    #pass updated timeout info to page again
+
 
     return render_template('posts.html', title='Timed Out',
                            daily=daily)
 
 @users.route('/register', methods=['GET','POST'])
 def register():
+    if current_user.is_authenticated:
+        return redirect(url_for('main.home'))
     form = RegistrationForm()
-    return render_template('register.html', form=form)
+    if form.validate_on_submit():
+        hashed_password = bcrypt.generate_password_hash(form.password.data).decode('utf-8')
+        user = User(name=form.fname.data + ' ' + form.lname.data, username=form.username.data, email=form.email.data, 
+                    position=form.position.data, password=hashed_password)
+        
+        #TODO validate if user already exists
+        db.session.add(user)
+        db.session.commit()
+        flash('Your account has been created! You are now able to log in', 'success')
+        return redirect(url_for('users.login'))
+    return render_template('register.html', title='Register', form=form)
 
 @users.route('/profile')
 def profile():
