@@ -29,7 +29,7 @@ def home():
 
 @main.route('/posts')
 def posts_():
-    print(f'datetime now: {datetime.now().strftime("%Y-%m-%d %H:%M:%S")}', file=sys.stderr)
-    print(f'date now: {date.today()}', file=sys.stderr)
-    print(f'time now: {datetime.now().strftime("%H:%M:%S")}', file=sys.stderr)
+    # print(f'datetime now: {datetime.now().strftime("%Y-%m-%d %H:%M:%S")}', file=sys.stderr)
+    # print(f'date now: {date.today()}', file=sys.stderr)
+    # print(f'time now: {datetime.now().strftime("%H:%M:%S")}', file=sys.stderr)
     return render_template('posts.html', posts=posts)

@@ -7,7 +7,8 @@
 {%extends "layout.html"%}
 <!------ Include the above in your HEAD tag ----------> 
 {% block content %}
-    <div class="wrapper fadeInDown">
+    <!-- <div class="wrapper fadeInDown"> -->
+    <div class="wrapper">
     <div id="formContent">
         <!-- Tabs Titles -->
 
@@ -19,7 +20,7 @@
         <!-- Login Form -->
         <form method="POST" action="">
             {{ form.hidden_tag() }}
-            <div class="fadeIn second">
+            <div class="form-group-lg">
                 {{ form.username.label(class="from-control-label") }}
                 {% if form.username.errors %}
                     {{ form.username(class="form-control form-control-lg is-invalid") }}
@@ -32,7 +33,7 @@
                     {{ form.username }}
                 {% endif %}
             </div>
-            <div class="fadeIn third">
+            <div class="form-group-lg">
                 {{ form.password.label(class="from-control-label") }}
                 {% if form.password.errors %}
                     {{ form.password(class="form-control form-control-lg is-invalid") }}
