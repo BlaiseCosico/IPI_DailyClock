@@ -5,7 +5,7 @@ from flask_login import login_user, current_user, logout_user, login_required
 from timesheet import db, bcrypt
 from datetime import datetime, date
 from timesheet.models import User, Daily
-from timesheet.users.forms import LoginForm, RegistrationForm
+from timesheet.users.forms import LoginForm, RegistrationForm, AccountForm
 
 users = Blueprint('users', __name__)
 todays_datetime = datetime(datetime.today().year, datetime.today().month, datetime.today().day)
@@ -20,7 +20,7 @@ def login():
             day = Daily(time_in=datetime.now().strftime("%H:%M"), user_id=current_user.username) #remove seconds
             db.session.add(day)
             db.session.commit()
-
+ 
             return day
 
         return None
@@ -76,7 +76,18 @@ def register():
         return redirect(url_for('users.login'))
     return render_template('register.html', title='Register', form=form)
 
-@users.route('/profile')
+@users.route('/profile', methods=['GET','POST'])
+@login_required
 def profile():
-    pass
+    form = AccountForm()
+    if form.validate_on_submit():
+        current_user.email = form.email.data
+        db.session.commit()
+        flash('Your account has been updated!', 'success')
+        return redirect(url_for('users.profile'))
+    elif request.method == 'GET':
+        form.username.data = current_user.username
+        form.email.data = current_user.email
+
+    return render_template('profile.html', title='Account', form=form)
 

@@ -1,12 +1,11 @@
 {% extends 'layout.html' %}
-
 {% block content %}
-    <div class="content-section">
+    <div class="container col-md-5 content-section">
         <form method="POST" action="">
             {{ form.hidden_tag() }}
             <fieldset class="form-group">
                 <legend class="border-bottom mb-4">Join Today</legend>
-                <div class="col-sm-5 form-group-lg">
+                <div class="form-group-lg">
                     {{ form.fname.label(class="form-control-label") }}
 
                     {% if form.fname.errors %}
@@ -21,7 +20,7 @@
                     {% endif %}
                 </div>
 
-                <div class="col-sm-5 form-group-lg">
+                <div class="form-group-lg">
                     {{ form.lname.label(class="form-control-label") }}
 
                     {% if form.lname.errors %}
@@ -36,7 +35,7 @@
                     {% endif %}
                 </div>
 
-                <div class="col-sm-5 form-group-lg">
+                <div class="form-group-lg">
                     {{ form.username.label(class="form-control-label") }}
 
                     {% if form.username.errors %}
@@ -51,7 +50,7 @@
                     {% endif %}
                 </div>
 
-                <div class="col-sm-5 form-group-lg">
+                <div class="form-group-lg">
                     {{ form.email.label(class="form-control-label") }}
 
                     {% if form.email.errors %}
@@ -66,7 +65,7 @@
                     {% endif %}
                 </div>
 
-                <div class="col-sm-5 form-group-lg">
+                <div class="form-group-lg">
                     {{ form.position.label(class="form-control-label") }}
 
                     {% if form.position.errors %}
@@ -81,7 +80,7 @@
                     {% endif %}
                 </div>
 
-                <div class="col-sm-5 form-group-lg">
+                <div class="form-group-lg">
                     {{ form.password.label(class="form-control-label") }}
 
                     {% if form.password.errors %}
@@ -96,7 +95,7 @@
                     {% endif %}
                 </div>
                 
-                <div class="col-sm-5 form-group-lg">
+                <div class="form-group-lg">
                     {{ form.confirm_password.label(class="form-control-label") }}
 
                     {% if form.confirm_password.errors %}
@@ -111,9 +110,15 @@
                     {% endif %}
                 </div>
             </fieldset>
-            <div class="col-sm-5 form-group-lg">
+            <div class="form-group-lg">
                 {{ form.submit(class="btn btn-outline-info") }}
             </div>
         </form>
+    
+        <div class="border-top pt-3">
+            <small class="text-muted">
+                Already Have An Account? <a class="ml-2" href="{{ url_for('users.login') }}">Sign In</a>
+            </small>
+        </div>
     </div>
 {% endblock content %}
